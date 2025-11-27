@@ -1,23 +1,32 @@
 <?php
 require_once("koneksi.php");
-$sql = "select * from siswa";
-$res = mysqli_query(mysql: $conn, query: $sql);
+
+$sql = "SELECT * FROM siswa";
+$res = mysqli_query($conn, $sql);
+
 $result = array();
 
-while ($row = mysqli_fetch_assoc(result: $res)){
+while ($row = mysqli_fetch_assoc($res)) {
+
     $foto_path = "upload/" . $row["foto"];
-    $foto_base64 = file_exists(filename: $foto_path) ? base64_encode(string: file_get_contents(filename: $foto_path)) :
+
+    // Jika file foto ada → encode, kalau tidak ya kosong
+    if (file_exists($foto_path)) {
+        $foto_base64 = base64_encode(file_get_contents($foto_path));
+    } else {
+        $foto_base64 = "";
+    }
 
     $result[] = array(
-        "nis" => $row ["nis"],
-        "namasiswa" => $row ["namasiswa"],
-        "jk" => $row ["jk"],
-        "alamat" => $row ["alamat"],
-        "tanggallahir" => $row ["tanggallahir"],
-        "foto" => $foto_base64
+        "nis"           => $row["nis"],
+        "namasiswa"     => $row["namasiswa"],
+        "jk"            => $row["jk"],
+        "alamat"        => $row["alamat"],
+        "tanggallahir"  => $row["tanggallahir"],
+        "foto"          => $foto_base64
     );
 }
 
-//output json
-header(header: 'Content-type:application/json');
-echo json_encode(value: array('result' => $result));    
+// output json
+header('Content-Type: application/json');
+echo json_encode(array('result' => $result));

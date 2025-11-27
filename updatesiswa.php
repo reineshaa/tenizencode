@@ -9,9 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tgllahir = $_POST['tgllahir']; // Tambahkan ini
 
     $sql = "UPDATE siswa SET namasiswa='$namasiswa', jk='$jk', alamat='$alamat', tanggallahir='$tgllahir' WHERE nis='$nis'";
-    if (mysqli_query($con, $sql)) {
+    if (mysqli_query($conn, $sql)) {
         echo "Data berhasil diperbarui";
     } else {
-        echo "Gagal memperbarui data: " . mysqli_error($koneksi);
+        echo "Gagal memperbarui data: " . mysqli_error($conn);
     }
 }

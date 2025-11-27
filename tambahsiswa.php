@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $jk = $_POST['jk'];
     $alamat = $_POST['alamat'];
     $tanggallahir = $_POST['tanggallahir'];
-    $foto_base64 = $_POST['foto'];
+    $foto_base64 = $_POST['foto'];  
 
     // dekode gambar
     $imageData = base64_decode($foto_base64);
@@ -14,9 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $namafile = $nis . "_siswa.jpg";
 
     // path simpan
-    $filePath = "upload/" . $namafile;
+    $folder = __DIR__ . "/upload/";
+    if (!is_dir($folder)) mkdir($folder, 0777, true);
 
-    if (file_put_contents($filePath, $imageData)) {
+    $filePath = $folder . $namafile;
+
+    if (file_put_contents($filePath, $imageData) !== false) {
+
         require_once('koneksi.php');
 
         $sql = "INSERT INTO siswa(nis, namasiswa, jk, alamat, tanggallahir, foto) VALUES ('$nis','$namasiswa','$jk','$alamat','$tanggallahir','$namafile')";

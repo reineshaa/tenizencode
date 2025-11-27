@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once('koneksi.php');
 
     // Cek apakah idproduk ada di tabel produk
-    $checkStmt = $con->prepare("SELECT idproduk FROM produk WHERE idproduk = ?");
+    $checkStmt = $conn->prepare("SELECT idproduk FROM produk WHERE idproduk = ?");
     $checkStmt->bind_param("s", $idproduk);
     $checkStmt->execute();
     $result = $checkStmt->get_result();
@@ -30,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $checkStmt->close();
 
     // Insert transaksi ke database
-    $stmt = $con->prepare("INSERT INTO transaksi ($idproduk, jumlahbeli, total, bayar, kembalian, tanggaltransaksi) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO transaksi ($idproduk, jumlahbeli, total, bayar, kembalian, tanggaltransaksi) VALUES (?, ?, ?, ?, ?, ?)");
     if (!$stmt) {
-        echo "Gagal mempersiapkan statement: " . $con->error;
+        echo "Gagal mempersiapkan statement: " . $conn->error;
         exit;
     }
 
